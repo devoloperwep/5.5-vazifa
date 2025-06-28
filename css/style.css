@@ -1,0 +1,128 @@
+@import url(https://fonts.googleapis.com/css2?family=Fresca&display=swap);
+
+body {
+  background-color: rgba(0, 0, 0, 0.269);
+  font-family: "Fresca", sans-serif;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.opasity {
+  opacity: 50%;
+}
+
+.progress-and-time {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+a {
+  text-decoration: none;
+  color: aqua;
+}
+.muted {
+  cursor: pointer;
+}
+.progress-container {
+  width: 100%;
+  max-width: 400px;
+  background-color: #ccc;
+  border-radius: 10px;
+  height: 5px;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: auto;
+}
+.speeds {
+  margin-top: -20px;
+}
+.speeds button {
+  border-radius: 10%;
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.progress {
+  background-color: tomato;
+  border-radius: inherit;
+  height: inherit;
+  width: 0%;
+  transition: 0.3s;
+}
+
+.cover {
+  border-radius: 50%;
+  animation: cover 10s linear infinite;
+  animation-play-state: paused;
+}
+
+.container.play .cover {
+  animation-play-state: running;
+}
+
+.buttons button {
+  border-radius: 50%;
+  padding: 10px 15px;
+  border: none;
+  background-color: rgba(211, 20, 20, 0.483);
+  cursor: pointer;
+}
+.buttons button:active {
+  transform: scale(1.1);
+}
+.timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}
+.timer button {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background-color: black;
+  color: white;
+}
+.timer button:active {
+  transform: scale(1.05);
+}
+#time-text {
+  color: rgb(10, 160, 197);
+  user-select: none;
+}
+#time-input {
+  border: none;
+  padding: 10px;
+  outline: none;
+  border-radius: 10px;
+}
+
+@keyframes cover {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.error {
+  color: red;
+}
+.timer-count {
+  color: orange;
+  background-color: black;
+  padding: 10px 15px;
+  border-radius: 10%;
+  user-select: none;
+}
