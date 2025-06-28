@@ -30,7 +30,7 @@ audio.addEventListener("loadeddata", () => {
     +seconds < 10 ? `${seconds.padStart(2, 0)}` : seconds
   }`;
   durationEl.textContent = time;
-  currentTimeEl.textContent = time;
+  currentTimeEl.textContent = audio.currentTime();
 });
 
 const songs = [
