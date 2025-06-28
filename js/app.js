@@ -154,9 +154,9 @@ timerBtn.addEventListener("click", () => {
       timerCount.textContent = timeCount;
     }, 1000);
     setTimeout(() => {
-      pause();
       timerInput.disabled = false;
       clearInterval(countTime);
+      pause();
     }, `${inputValue}000`);
   } else {
     error.textContent = "Raqam kiriting.";
