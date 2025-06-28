@@ -143,8 +143,13 @@ const timerCount = document.querySelector(".timer-count");
 timerBtn.addEventListener("click", () => {
   const inputValue = timerInput.value;
   const error = document.querySelector(".error");
-  if (!String(inputValue).trim() == "") {
-    muzicPlay();
+  if (String(inputValue).trim() == "") {
+    error.textContent = "Raqam kiriting.";
+    setTimeout(() => {
+      error.textContent = "";
+    }, 1500);
+  } else {
+    play();
     timeCount = inputValue;
     timerCount.textContent = timeCount;
     timerInput.value = "";
@@ -158,11 +163,6 @@ timerBtn.addEventListener("click", () => {
       clearInterval(countTime);
       pause();
     }, `${inputValue}000`);
-  } else {
-    error.textContent = "Raqam kiriting.";
-    setTimeout(() => {
-      error.textContent = "";
-    }, 1500);
   }
 });
 
