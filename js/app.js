@@ -43,7 +43,7 @@ let currentPlayingSong = 0;
 function changSong(current) {
   audio.src = `../audios/${songs[current]}.mp3`;
   cover.src = `../images/${songs[current]}.png`;
-  downloadEl.href = `../audios/${songs[current]}`;
+  downloadEl.href = `../audios/${songs[current]}.mp3`;
   musicTitle.textContent = `${songs[current]}`;
 }
 changSong(currentPlayingSong);
@@ -162,6 +162,7 @@ timerBtn.addEventListener("click", () => {
       timerInput.disabled = false;
       clearInterval(countTime);
       pause();
+      timerCount.textContent = "00";
     }, `${inputValue}000`);
   }
 });
