@@ -21,17 +21,7 @@ const downloadEl = document.getElementById("download");
 const speedEl = document.querySelectorAll(".speed");
 const timerInput = document.getElementById("time-input");
 const timerBtn = document.getElementById("timer-btn");
-
-audio.addEventListener("loadeddata", () => {
-  const duration = audio.duration;
-  const minutes = String((duration - (duration % 60)) / 60);
-  const seconds = String(parseInt(duration % 60));
-  const time = `${+minutes < 10 ? `${minutes.padStart(2, 0)}` : minutes}:${
-    +seconds < 10 ? `${seconds.padStart(2, 0)}` : seconds
-  }`;
-  durationEl.textContent = time;
-  currentTimeEl.textContent = audio.currentTime();
-});
+const timerCount = document.querySelector(".timer-count");
 
 const songs = [
   "Weeknd - Blinding Lights",
@@ -50,7 +40,6 @@ changSong(currentPlayingSong);
 
 audio.volume = +volume.value / 100;
 volumeText.textContent = `${volume.value}`;
-// audio.duration = durationEl;
 
 function pause() {
   audio.pause();
@@ -112,6 +101,16 @@ function progress() {
   progressEl.style.width = `${p}%`;
 }
 
+function audioLoad() {
+  const duration = audio.duration;
+  const minutes = String((duration - (duration % 60)) / 60);
+  const seconds = String(parseInt(duration % 60));
+  const time = `${+minutes < 10 ? `${minutes.padStart(2, 0)}` : minutes}:${
+    +seconds < 10 ? `${seconds.padStart(2, 0)}` : seconds
+  }`;
+  durationEl.textContent = time;
+}
+
 function changeTime(e) {
   const p = (e.offsetX / this.clientWidth) * 100;
   const currentTime = (audio.duration / 100) * p;
@@ -130,17 +129,20 @@ function volumeChange() {
   }
 }
 
-playBtn.addEventListener("click", muzicPlay);
-audio.addEventListener("timeupdate", progress);
-progressContainer.addEventListener("click", changeTime);
-volume.addEventListener("input", volumeChange);
-audio.addEventListener("ended", nextSong);
-backgwordBtn.addEventListener("click", prevSong);
-forwardBtn.addEventListener("click", nextSong);
+let mutedTarget = true;
+function mutedControl() {
+  if (mutedTarget) {
+    audio.muted = true;
+    mutedEl.innerHTML = `<i class="fa-solid fa-volume-xmark"></i>`;
+  } else {
+    audio.muted = false;
+    mutedEl.innerHTML = `<i class="fa-solid fa-volume-high"></i>`;
+  }
+  mutedTarget == true ? (mutedTarget = false) : (mutedTarget = true);
+}
 
 let timeCount = 0;
-const timerCount = document.querySelector(".timer-count");
-timerBtn.addEventListener("click", () => {
+function timerPause() {
   const inputValue = timerInput.value;
   const error = document.querySelector(".error");
   if (String(inputValue).trim() == "") {
@@ -149,6 +151,8 @@ timerBtn.addEventListener("click", () => {
       error.textContent = "";
     }, 1500);
   } else {
+    document.removeEventListener("keyup", keyMuzic);
+    playBtn.disabled = true;
     play();
     timeCount = inputValue;
     timerCount.textContent = timeCount;
@@ -163,8 +167,37 @@ timerBtn.addEventListener("click", () => {
       clearInterval(countTime);
       pause();
       timerCount.textContent = "00";
+      playBtn.disabled = false;
+      document.addEventListener("keyup", keyMuzic);
     }, `${inputValue}000`);
   }
+}
+
+let target = true;
+function keyMuzic(e) {
+  if (e.which == 32) {
+    if (target) {
+      muzicPlay();
+    } else {
+      audio.pause();
+    }
+    target == true && false;
+  }
+}
+
+audio.addEventListener("loadeddata", audioLoad);
+playBtn.addEventListener("click", muzicPlay);
+audio.addEventListener("timeupdate", progress);
+progressContainer.addEventListener("click", changeTime);
+volume.addEventListener("input", volumeChange);
+audio.addEventListener("ended", nextSong);
+backgwordBtn.addEventListener("click", prevSong);
+forwardBtn.addEventListener("click", nextSong);
+timerBtn.addEventListener("click", timerPause);
+mutedEl.addEventListener("click", mutedControl);
+document.addEventListener("keyup", keyMuzic);
+document.addEventListener("DOMContentLoaded", () => {
+  audio.currentTime = 100;
 });
 
 // speeds
@@ -182,31 +215,4 @@ speed05.addEventListener("click", () => {
 });
 speed2.addEventListener("click", () => {
   audio.playbackRate = 2;
-});
-// keyup pause
-let target = true;
-document.addEventListener("keyup", (e) => {
-  if (e.which == 32) {
-    if (target) {
-      muzicPlay();
-    } else {
-      audio.pause();
-    }
-    target == true && false;
-  }
-});
-document.addEventListener("DOMContentLoaded", () => {
-  audio.currentTime = 100;
-});
-// muted
-let mutedTarget = true;
-mutedEl.addEventListener("click", () => {
-  if (mutedTarget) {
-    audio.muted = true;
-    mutedEl.innerHTML = `<i class="fa-solid fa-volume-xmark"></i>`;
-  } else {
-    audio.muted = false;
-    mutedEl.innerHTML = `<i class="fa-solid fa-volume-high"></i>`;
-  }
-  mutedTarget == true ? (mutedTarget = false) : (mutedTarget = true);
 });
