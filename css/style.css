@@ -1,8 +1,14 @@
 @import url(https://fonts.googleapis.com/css2?family=Fresca&display=swap);
 
 body {
-  background-color: rgba(0, 0, 0, 0.269);
+  /* background-color: rgba(0, 0, 0, 0.269); */
   font-family: "Fresca", sans-serif;
+  background: #eeaeca;
+  background: radial-gradient(
+    circle,
+    rgba(238, 174, 202, 1) 0%,
+    rgba(148, 187, 233, 1) 100%
+  );
 }
 .container {
   display: flex;
